@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<sub-flow name="getWeatherCitySub_Flow" doc:id="0a353d5d-5f26-4d8b-836b-442816af7b0b" >
+		<http:request method="${sapi.weatherSapi.method}" doc:name="Request sapi weather" doc:id="39ed36f8-ee8b-4bf8-a084-fb4c5a10d895" config-ref="sapi_weather_HTTP_Request_configuration" path="${sapi.weatherSapi.getWeatherCity.path}">
+			<http:uri-params ><![CDATA[#[output application/java
+---
+{
+	city : vars.city
+}]]]></http:uri-params>
+		</http:request>
+		<ee:transform doc:name="output payload" doc:id="965d0f09-8351-46ca-84b9-4eb5ee0f87b7" >
+			<ee:message >
+				<ee:set-payload resource="dwl/getweathercity.dwl" />
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+</mule>

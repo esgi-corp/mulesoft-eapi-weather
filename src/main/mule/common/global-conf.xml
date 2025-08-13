@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd">
+	<http:listener-config name="weather-eapi-httpListenerConfig" doc:name="HTTP Listener config" doc:id="ff5ed9d5-72d3-4df5-8fe3-8ce133004914" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<apikit:config outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" doc:name="Router" doc:id="1093cf59-f2f3-468f-a55f-95d8c94f9a56" name="weather-eapi-config" api="resource::b1c16c15-55a4-4b53-82a0-3cda1e356271:weather-eapi:1.0.1:raml:zip:weather-eapi.raml" />
+	<configuration-properties doc:name="Configuration properties" doc:id="de71414f-3c3c-4692-9766-c6d8a6679517" file="props/${mule.env}-properties.yaml" />
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="8e17093a-6924-409b-9c0e-72957629c54e" file="props/${mule.env}-secure-properties.yaml" key="${secure-mule.key}" >
+		<secure-properties:encrypt algorithm="Blowfish" />
+	</secure-properties:config>
+	<http:request-config name="sapi_weather_HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="edf2d414-80cd-49f6-9e92-007513852e62" >
+		<http:request-connection protocol="${sapi.weatherSapi.protocol}" host="${sapi.weatherSapi.host}" />
+		<http:default-headers >
+			<http:default-header key="client_id" value="${secure::sapi.weatherSapi.client_id}" />
+			<http:default-header key="client_secret" value="${secure::sapi.weatherSapi.client_secret}" />
+		</http:default-headers>
+	</http:request-config>
+</mule>
