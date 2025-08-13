@@ -1,2 +1,11 @@
 api:
-  id: ""
+  id: "2597935"
+
+sapi:
+  weatherSapi:
+    host: "sapi-weather-app-prd-h31hau.2ky31l-2.deu-c1.eu1.cloudhub.io"
+    protocol: "HTTPS"
+    method: "GET"
+    getWeatherCity:
+      path: "/getCurrentWeather/{city}"
+      method: "GET"
