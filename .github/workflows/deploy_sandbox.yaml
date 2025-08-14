@@ -11,10 +11,14 @@ on:
 
 jobs:
   deploy_api:
+    permissions:
+      contents: write
+      repository-projects: write
+      actions: write  
     uses: Nassim952/mulesoft_cicd/.github/workflows/api_deploy.yaml@main
     with:
       ENV: sandbox
-      BRANCH: ${{ github.event.inputs.branch }}
+      BRANCH: ${{ inputs.branch }}
       WORKERS: ${{ vars.WORKERS }}
       VCORES: ${{ vars.VCORES }}
       APP_NAME: "eapi-weather-app-sandbox"
