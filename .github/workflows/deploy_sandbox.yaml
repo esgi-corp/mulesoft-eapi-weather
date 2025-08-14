@@ -1,7 +1,6 @@
 name: Deploy branch to Sandbox
 run-name: Deploy branch ${{ github.ref_name }} to Sandbox
 
-
 on:
   workflow_dispatch:
     inputs:
