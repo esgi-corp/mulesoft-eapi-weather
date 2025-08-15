@@ -1,5 +1,5 @@
 name: Deploy branch to Sandbox
-run-name: Deploy branch ${{ github.ref_name }} to Sandbox
+run-name: Deploy branch ${{ github.event.inputs.branch }} to Sandbox
 
 on:
   workflow_dispatch:
@@ -17,9 +17,9 @@ jobs:
       actions: write  
     uses: Nassim952/mulesoft_cicd/.github/workflows/api_deploy.yaml@main
     with:
-      ENV: sandbox
-      BRANCH: ${{ inputs.branch }}
-      WORKERS: ${{ vars.WORKERS }}
-      VCORES: ${{ vars.VCORES }}
-      APP_NAME: "eapi-weather-app-sandbox"
+      env: sandbox
+      branch: ${{ github.event.inputs.branch }}
+      workers: ${{ vars.WORKERS }}
+      vcores: ${{ vars.VCORES }} 
+      app_name: "eapi-weather-app-sandbox"
     secrets: inherit
