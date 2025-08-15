@@ -11,10 +11,6 @@ on:
 
 jobs:
   deploy_api:
-    permissions:
-      contents: write
-      repository-projects: write
-      actions: write  
     uses: Nassim952/mulesoft_cicd/.github/workflows/api_deploy.yaml@main
     with:
       env: sandbox
