@@ -11,7 +11,7 @@ on:
 
 jobs:
   deploy_api:
-    uses: Nassim952/mulesoft_cicd/.github/workflows/api_deploy.yaml@main
+    uses: esgi-corp/mulesoft_cicd/.github/workflows/api_deploy.yaml@main
     with:
       env: sandbox
       branch: ${{ github.event.inputs.branch }}
