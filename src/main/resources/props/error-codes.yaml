@@ -1,0 +1,49 @@
+error:
+  any: 
+    code: "EAPI-S001" # Code for undhandled exception
+    sendNotification: "true"
+    description: "global_error_message"
+  badRequest:
+    code: "EAPI-C001" # Bad Request or missing parameters from Client Request
+    sendNotification: "false"
+  notFound:
+    code: "EAPI-C002" # Resource not found or available from the server
+    sendNotification: "false"
+  notAllowed:
+    code: "EAPI-C003" # Client request is not allowed on the API/Application
+    sendNotification: "false"    
+  notAcceptable:
+    code: "EAPI-C004" # Client request is not acceptable on the API/Application
+    sendNotification: "false" 
+  forbidden:
+    code: "EAPI-C020" # Client request is not responding on the API/Application
+    sendNotification: "false"     
+  unsupportedMediaType:
+    code: "EAPI-C005" # Client\'s payload is not supported by the API
+    sendNotification: "false"
+  resourceUnavaiable:
+    code: "EAPI-C006" # Resource not available currently
+    sendNotification: "false"           
+  notImplemented:
+    code: "EAPI-S006" # Client is accessing a not implemented functionalities
+    sendNotification: "false"      
+  invalidCredentials:
+    code: "EAPI-C020" # Credential provided are invalid or not working
+    sendNotification: "false"
+  UnprocessableEntity:
+    code: "EAPI-C020" # Credential provided are invalid or not working
+    sendNotification: "false"
+  dbTranscoConnectivity:
+    code: "EAPI-S100" # API could not connect to the database, due to credentials issue or server is not reachable
+    sendNotification: "true"
+  dbTranscoBadSQLSyntax:
+    code: "EAPI-S101" # Check SQL Syntax
+    sendNotification: "true"
+  HTTPS:     
+    BAD_REQUEST:
+       code: "EAPI-C002" # bad request error
+       sendNotification: "false"
+    ANY:
+      code: "EAPI-C003" # Technical error
+      sendNotification: "false"    
+    

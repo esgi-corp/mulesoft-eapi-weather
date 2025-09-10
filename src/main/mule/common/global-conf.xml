@@ -23,4 +23,5 @@ http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/m
 		</http:default-headers>
 	</http:request-config>
 	<api-gateway:autodiscovery apiId="${api.id}" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="594fb719-d493-4f32-99d8-c92709f534f3" flowRef="weather-eapi-main" />
+	<configuration-properties doc:name="Configuration properties" doc:id="0b032299-9a13-4f3a-98a9-f82f08fc71df" file="props\error-codes.yaml" />
 </mule>
