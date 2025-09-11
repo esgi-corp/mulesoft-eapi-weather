@@ -8,6 +8,10 @@ on:
         description: 'Nom de la branche à déployer'
         required: true
         default: 'main'
+      jira_ticket:
+        description: 'Jira ticket number'
+        required: false
+        default: ''
 
 jobs:
   deploy_api:
@@ -15,6 +19,7 @@ jobs:
     with:
       env: sandbox
       branch: ${{ github.event.inputs.branch }}
+      jira_ticket: ${{ github.event.inputs.jira_ticket }}
       workers: ${{ vars.WORKERS }}
       vcores: ${{ vars.VCORES }} 
       app_name: "eapi-weather-app"
