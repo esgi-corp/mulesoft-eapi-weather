@@ -401,25 +401,7 @@ p('error.any.description')]]></ee:set-variable>
 	<sub-flow name="error-handling:\response" doc:id="8ca4735a-dfc9-42ab-be4b-149ca250c942" >
 		
 		<set-variable value="#[error.errorMessage.payload]" doc:name="Set errorPayload" doc:id="d768d5b3-2fd1-4291-8135-c38210c6a5ff" variableName="errorPayload" />
-		<choice doc:name="Choice when errorPayload" doc:id="228069d1-786b-4fe1-a6c2-b72f291b8b68" >
-			<when expression="#[!isEmpty(vars.errorPayload.data.errorDetails.fault)]">
-				<choice doc:name="Choice when native error" doc:id="f492f47d-757e-4391-868a-2f21c06cc79a" >
-					<when expression="#[isEmpty(vars.errorPayload.data.errorDetails.fault.arguments.statusCode) and isEmpty(vars.errorPayload.data.errorDetails.fault.arguments.statusMessage)]">
-						<ee:transform doc:name="Native Error Response" doc:id="d6ce6588-cebe-48e1-bca5-79034863ca90">
-					<ee:message>
-								<ee:set-payload resource="error_dwl/native-error-response.dwl" />
-					</ee:message>
-				</ee:transform>
-					</when>
-					<otherwise >
-						<flow-ref doc:name="Deafult Error Response" doc:id="5265c3de-94f4-4682-9c65-9f48bf4245ae" name="commonErrorFLow" />
-					</otherwise>
-				</choice>
-			</when>
-			<otherwise >
-				<flow-ref doc:name="Deafult Error Response" doc:id="82341c44-655b-46c8-ba8a-24cc069e60c7" name="commonErrorFLow" />
-			</otherwise>
-		</choice>
+		<flow-ref doc:name="Default Error Response" doc:id="82341c44-655b-46c8-ba8a-24cc069e60c7" name="commonErrorFLow" />
 		
 		
 		
@@ -430,6 +412,7 @@ p('error.any.description')]]></ee:set-variable>
 				<ee:set-payload resource="error_dwl/errorResponse.dwl" />
 			</ee:message>
 		</ee:transform>
+		<flow-ref doc:name="Send logs to platform" doc:id="bf6a5bcf-7204-42e2-94df-10b4d781d8a6" name="log-to-elastic" />
 	</sub-flow>
 	<sub-flow name="coordinates-notfound" doc:id="9325485e-2a01-4a89-a0f4-388b573a8dda" doc:description="Coordinates not found" >
 		<raise-error doc:name="City not found" doc:id="c146bfc8-6fcd-40bb-8a9b-23450ad65926" doc:description="Coordinates not found" type="APP:COORDINATES_NOT_FOUND" description="Coordinates not found" />

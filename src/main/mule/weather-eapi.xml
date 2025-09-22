@@ -16,10 +16,19 @@
     <flow name="get:\getCurrentWeather\(city):weather-eapi-config">
         <ee:transform doc:name="get uriParams">
             <ee:variables>
-                <ee:set-variable variableName="city">attributes.uriParams.'city'</ee:set-variable>
+                <ee:set-variable variableName="city"><![CDATA[attributes.uriParams.'city']]></ee:set-variable>
+				<ee:set-variable variableName="requestUri" ><![CDATA[%dw 2.0
+output application/json
+---
+attributes.requestUri]]></ee:set-variable>
+				<ee:set-variable variableName="httpMethod" ><![CDATA[%dw 2.0
+output application/java
+---
+attributes.method]]></ee:set-variable>
             </ee:variables>
         </ee:transform>
-        <flow-ref doc:name="Flow Reference" doc:id="5a48ac0b-d2c6-4842-b7b8-08d15e76681b" name="getWeatherCitySub_Flow"/>
-        <error-handler ref="error-handling-app" />
+        <flow-ref doc:name="getCurrentWeather by city" doc:id="5a48ac0b-d2c6-4842-b7b8-08d15e76681b" name="getWeatherCitySub_Flow"/>
+        <flow-ref doc:name="Send Logs to platform" doc:id="a95da3b8-89c3-4488-8a2e-1b80b8502bb6" name="log-to-elastic" targetValue="#[vars.log_message]"/>
+		<error-handler ref="error-handling-app" />
     </flow>
 </mule>

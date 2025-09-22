@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<sub-flow name="log-to-elastic" doc:id="5739551e-07d9-4631-babd-73fd052e5902" >
+		<ee:transform doc:name="Build Log JSON" doc:id="7906c449-adf0-4691-98cd-e7d7f461f2ad" >
+			<ee:message />
+			<ee:variables >
+				<ee:set-variable variableName="log_message" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "@timestamp": now(),
+  "application_name": "eapi-weather-app-" ++ p('mule.env'),
+  "environment": p('mule.env'), 
+  "request_uri": vars.requestUri,
+  "body_input": vars.inputRequest default null,
+  "body_output": payload,
+  "correlation_id": correlationId,
+  "http_code": vars.httpStatus default attributes.statusCode,
+  "method": vars.httpMethod
+ }     ]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<http:request method="POST" doc:name="Send Logs to platform" doc:id="e34b6200-ae0b-461d-a4af-00251d72bfc5" url="https://9e65aedabbc64884907540a9b26bcd62.us-central1.gcp.cloud.es.io:443/esgi-mule-logs/_doc" sendCorrelationId="AUTO" target="log_message" >
+			<http:body ><![CDATA[#[vars.log_message]]]></http:body>
+			<http:headers ><![CDATA[#[output application/java
+---
+{
+	"Authorization" : "ApiKey " ++ p('secure::kibana.apikey'),
+	"Content-Type" : "application/json"
+}]]]></http:headers>
+		</http:request>
+	</sub-flow>
+</mule>
